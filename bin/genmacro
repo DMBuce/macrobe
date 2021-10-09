@@ -1,0 +1,92 @@
+#!/usr/bin/perl
+
+use strict;
+
+BEGIN {
+	print("Delay 100\n");
+}
+
+my %chars = (
+	"`"  => "grave",
+	"-"  => "minus",
+	"="  => "equal",
+	"\\" => "backslash",
+	"]"  => "bracketright",
+	"["  => "bracketleft",
+	"'"  => "apostrophe",
+	";"  => "semicolon",
+	"/"  => "slash",
+	"."  => "period",
+	","  => "comma",
+	" "  => "space",
+	"\t" => "Tab",
+	"\n" => "Return",
+	"_"  => "Shift_L minus",
+	"+"  => "Shift_L equal",
+	"|"  => "Shift_L backslash",
+	"}"  => "Shift_L bracketright",
+	"{"  => "Shift_L bracketleft",
+	"\"" => "Shift_L apostrophe",
+	":"  => "Shift_L semicolon",
+	"?"  => "Shift_L slash",
+	">"  => "Shift_L period",
+	"<"  => "Shift_L comma",
+	"~"  => "Shift_R grave",
+	"!"  => "Shift_R 1",
+	"@"  => "Shift_R 2",
+	"#"  => "Shift_R 3",
+	"\$" => "Shift_R 4",
+	"%"  => "Shift_R 5",
+	"^"  => "Shift_L 6",
+	"&"  => "Shift_L 7",
+	"*"  => "Shift_L 8",
+	"("  => "Shift_L 9",
+	")"  => "Shift_L 0",
+
+	"Q"  => "Shift_L q",
+	"W"  => "Shift_L w",
+	"E"  => "Shift_L e",
+	"R"  => "Shift_L r",
+	"T"  => "Shift_L t",
+	"A"  => "Shift_L a",
+	"S"  => "Shift_L s",
+	"D"  => "Shift_L d",
+	"F"  => "Shift_L f",
+	"G"  => "Shift_L g",
+	"Z"  => "Shift_L z",
+	"X"  => "Shift_L x",
+	"C"  => "Shift_L c",
+	"V"  => "Shift_L v",
+
+	"Y"  => "Shift_R y",
+	"U"  => "Shift_R u",
+	"I"  => "Shift_R i",
+	"O"  => "Shift_R o",
+	"P"  => "Shift_R p",
+	"H"  => "Shift_R h",
+	"J"  => "Shift_R j",
+	"K"  => "Shift_R k",
+	"L"  => "Shift_R l",
+	"B"  => "Shift_R b",
+	"N"  => "Shift_R n",
+	"M"  => "Shift_R m",
+);
+
+while (<>) {
+	foreach my $c (split //, $_) {
+		if ($chars{$c} =~ /(Shift_.) (.*)/) {
+			print("KeyStrPress $1\n");
+			print("KeyStrPress $2\n");
+			print("KeyStrRelease $2\n");
+			print("KeyStrRelease $1\n");
+		} elsif ($chars{$c}) {
+			print("KeyStrPress $chars{$c}\n");
+			print("KeyStrRelease $chars{$c}\n");
+		} else {
+			print("KeyStrPress $c\n");
+			print("KeyStrRelease $c\n");
+		}
+		print("\n") if ($c eq "\n");
+	}
+}
+

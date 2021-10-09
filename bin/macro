@@ -1,0 +1,97 @@
+#!/bin/bash
+
+# global vars
+configdir="${XDG_CONFIG_HOME-$HOME/.config/macro}"
+logfile="$configdir/xmacro.log"
+
+# redirect all output to logfile when not run from terminal
+if [[ ! -t 0 ]]; then
+	exec &> "$logfile"
+fi
+
+# create config dir if necessary and switch to it
+mkdir -p "$configdir"
+cd "$configdir"
+
+# exit with an error message
+die() {
+	local message="$1"
+	printf "$message\n" "$@"
+	exit "${retval-1}"
+}
+
+# print most recently recorded file to stdout
+mostrecent() {
+	find "$configdir" -maxdepth 1 -type f -name 'tmp.*' -printf "%T@ %p\n" \
+		| sort -rn \
+		| head -n1 \
+		| cut -d' ' -f 2-
+}
+
+# play an xmacro script
+play() {
+	local file="${1-$(mostrecent)}"
+	xmacroplay "${DISPLAY-:0}" < "$file"
+}
+
+# record an xmacro script
+rec() {
+	local file="$(mktemp "$configdir/tmp.XXXXXX")" || exit 1
+	xmacrorec2 -k 9 > "$file"
+	sed -i '
+		/^Delay / s/.*/Delay 50/
+		1s/^/Delay 100\n/
+	' "$file"
+}
+
+# display help message
+usage="Syntax: ${0##*/} record|edit|play|loop|kill|gen
+        ${0##*/} <template>
+
+Manipulate macros and templates for xmacro.
+"
+if [[ "$*" == *--help* ]]; then
+	die "$usage"
+fi
+
+# do the thing
+cmd="$1"
+shift
+case "$cmd" in
+	rec*) 
+		i3-msg 'mode "(Esc) Stop Recording"'
+		rec
+	;;
+	edit)
+		${EDITOR-vi} "$(mostrecent)"
+	;;
+	play) 
+		play
+	;;
+	loop)
+		i3-msg 'mode "(Esc) Stop Macro"'
+		while play; do
+			true
+		done
+	;;
+	kill)
+		killall macro xmacroplay
+	;;
+	gen*)
+		if [[ -f "$1" ]]; then
+			genmacro < "$1"
+		else
+			echo -n "$*" | genmacro
+		fi
+	;;
+	"")
+		die "$usage"
+	;;
+	*)
+		play "$configdir/$cmd"
+	;;
+esac
+
+# clean up old scripts
+find "$configdir" -maxdepth 1 -type f -name 'tmp.*' -mtime +365 -delete
+
