@@ -3,7 +3,8 @@
 
 Drop the scripts in your `$PATH`,
 make them executable,
-and make sure i3 and xmacro are installed.
+and make sure [xmacro](http://xmacro.sourceforge.net/)
+and [i3](https://i3wm.org/) are installed.
 
 ## Configure
 
@@ -43,9 +44,9 @@ Macros are stored in `~/.config/macro/`.
 
     $ macro
     Syntax: macro list|record|edit|play|loop|kill|gen
-            macro <template>
+            macro <macro>
     
-    Manipulate macros and templates for xmacro.
+    Manage xmacro macros.
 
 Record a macro to `~/.config/macro/tmp.XXXXXX`:
 
