@@ -24,7 +24,7 @@ The `macro rec` and `macro loop` commands rely on these i3 modes:
     }
     mode "$lmacromode" {
         # cancel
-        bindsym Escape $exec macro kill; mode "default"
+        bindsym Escape exec macro kill; mode "default"
     }
 
 For users who want a simple GUI,
@@ -56,7 +56,7 @@ List all macros:
 
     macro list
 
-Edit the most recent macro:
+Edit the most recent macro with your `$EDITOR` (`vi` by default):
 
     macro edit
 
