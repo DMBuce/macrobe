@@ -45,7 +45,7 @@ rec() {
 }
 
 # display help message
-usage="Syntax: ${0##*/} record|edit|play|loop|kill|gen
+usage="Syntax: ${0##*/} list|record|edit|play|loop|kill|gen
         ${0##*/} <template>
 
 Manipulate macros and templates for xmacro.
@@ -58,6 +58,9 @@ fi
 cmd="$1"
 shift
 case "$cmd" in
+	list)
+		egrep -lx 'Delay [0-9]+' *
+	;;
 	rec*) 
 		i3-msg 'mode "(Esc) Stop Recording"'
 		rec
