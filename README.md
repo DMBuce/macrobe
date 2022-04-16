@@ -50,7 +50,7 @@ Macros are stored in `~/.config/macro/`.
     
     Manage xmacro macros.
 
-Record a macro to `~/.config/macro/tmp.XXXXXX`:
+Record a macro to `~/.config/macro/tmp.*`:
 
     macro rec
 
@@ -58,15 +58,15 @@ List all macros:
 
     macro list
 
-Edit the most recent macro with your `$EDITOR` (`vi` by default):
+Edit the most recent `tmp.*` macro with your `$EDITOR` (`vi` by default):
 
     macro edit
 
-Play the most recent macro:
+Play the most recent `tmp.*` macro:
 
     macro play
 
-Play the most recent macro on repeat:
+Play the most recent `tmp.*` macro on repeat:
 
     macro loop
 
