@@ -9,7 +9,7 @@ and make sure i3 and xmacro are installed.
 
 At the top of the `genmacro` script is a mapping of characters to keysym sequences.
 If you wish to use `macro gen` or `genmacro` to generate an xmacro script from text,
-these need to be adjusted to match your keyboard.
+these need to be adjusted to match your keyboard layout.
 You can use `xev` and press a key to see its keysym.
 
 The `macro rec` and `macro loop` commands rely on these i3 modes:
@@ -26,7 +26,8 @@ The `macro rec` and `macro loop` commands rely on these i3 modes:
         bindsym Escape $exec macro kill; mode "default"
     }
 
-Example config for [blezz](https://github.com/Blezzing/blezz)
+For users who want a simple GUI,
+here is an example config for [blezz](https://github.com/Blezzing/blezz)
 or [rofi-blezz](https://github.com/davatorium/rofi-blezz):
 
     Macro:
@@ -36,6 +37,8 @@ or [rofi-blezz](https://github.com/davatorium/rofi-blezz):
     act(l,Loop, macro loop)
     act(c,Custom, macro my-custom-macro)
 
+Macros are stored in `~/.config/macro/`.
+
 ## Usage
 
     $ macro
@@ -43,8 +46,6 @@ or [rofi-blezz](https://github.com/davatorium/rofi-blezz):
             macro <template>
     
     Manipulate macros and templates for xmacro.
-
-Macros are stored in `~/.config/macro/`.
 
 Record a macro to `~/.config/macro/tmp.XXXXXX`:
 
