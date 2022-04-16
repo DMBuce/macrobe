@@ -13,7 +13,7 @@ If you wish to use `macro gen` or `genmacro` to generate an xmacro script from t
 these need to be adjusted to match your keyboard layout.
 You can use `xev` and press a key to see its keysym.
 
-The `macro rec` and `macro loop` commands rely on these i3 modes:
+The `macro record` and `macro loop` commands rely on these i3 modes:
 
     # record/loop modes
     set $rmacromode (Esc) Stop Recording
@@ -52,7 +52,7 @@ Macros are stored in `~/.config/macro/`.
 
 Record a macro to `~/.config/macro/tmp.*`:
 
-    macro rec
+    macro record
 
 List all macros:
 
