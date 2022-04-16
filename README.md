@@ -1,7 +1,8 @@
 
 ## Install
 
-Drop the scripts in your `$PATH`
+Drop the scripts in your `$PATH`,
+make them executable,
 and make sure i3 and xmacro are installed.
 
 ## Configure
@@ -33,4 +34,51 @@ or [rofi-blezz](https://github.com/davatorium/rofi-blezz):
     act(e,Edit, urxvt -e macro edit)
     act(p,Play, macro play)
     act(l,Loop, macro loop)
+    act(c,Custom, macro my-custom-macro)
+
+## Usage
+
+    $ macro
+    Syntax: macro list|record|edit|play|loop|kill|gen
+            macro <template>
+    
+    Manipulate macros and templates for xmacro.
+
+Macros are stored in `~/.config/macro/`.
+
+Record a macro to `~/.config/macro/tmp.XXXXXX`:
+
+    macro rec
+
+List all macros:
+
+    macro list
+
+Edit the most recent macro:
+
+    macro edit
+
+Play the most recent macro:
+
+    macro play
+
+Play the most recent macro on repeat:
+
+    macro loop
+
+Kill all macro and xmacroplay processes:
+
+    macro kill
+
+Rename a macro:
+
+    mv ~/.config/macro/tmp.XXXXXX ~/.config/macro/my-custom-macro
+
+Convert a text file to a macro:
+
+    genmacro file.txt > ~/.config/macro/my-custom-macro
+
+Play a specific macro:
+
+    macro my-custom-macro
 
