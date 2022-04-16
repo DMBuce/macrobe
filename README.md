@@ -1,10 +1,10 @@
 
-== Install
+## Install
 
 Drop the scripts in your `$PATH`
 and make sure i3 and xmacro are installed.
 
-== Configure
+## Configure
 
 At the top of the `genmacro` script is a mapping of characters to keysym sequences.
 If you wish to use `macro gen` or `genmacro` to generate an xmacro script from text,
