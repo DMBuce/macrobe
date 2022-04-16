@@ -38,6 +38,8 @@ or [rofi-blezz](https://github.com/davatorium/rofi-blezz):
     act(l,Loop, macro loop)
     act(c,Custom, macro my-custom-macro)
 
+![Blezz Menu](https://i.imgur.com/f7cxz0v.png)
+
 Macros are stored in `~/.config/macro/`.
 
 ## Usage
