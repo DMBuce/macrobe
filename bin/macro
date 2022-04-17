@@ -6,6 +6,7 @@ logfile="$configdir/xmacro.log"
 
 # redirect all output to logfile when not run from terminal
 if [[ ! -t 0 ]]; then
+	mkdir -p "$(dirname "$logfile")"
 	exec &> "$logfile"
 fi
 
