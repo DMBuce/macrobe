@@ -3,6 +3,7 @@
 # global vars
 configdir="${XDG_CONFIG_HOME-$HOME/.config/macro}"
 logfile="$configdir/xmacro.log"
+ini="$configdir/config.ini"
 
 # redirect all output to logfile when not run from terminal
 if [[ ! -t 0 ]]; then
@@ -19,6 +20,74 @@ die() {
 	local message="$1"
 	printf "$message\n" "$@"
 	exit "${retval-1}"
+}
+
+# load ini file
+load_ini() {
+	local ini="$1"
+	local line key value sec section section_keys
+
+	# define default section
+	sec=general
+	declare -n section="$sec"			 # requires bash 4.3+
+	declare -n section_keys="${sec}_keys" # requires bash 4.3+
+	declare -ga ${sec}_keys
+	declare -gA $sec
+	(( ${#section[@]} == 0 )) && section=()
+	(( ${#section_keys[@]} == 0 )) && section_keys=()
+
+	shopt -s extglob
+	while read line; do
+		# strip trailing comments
+		line="${line%%+([[:space:]])[#;]*}"
+		# strip full-line comments
+		line="${line##*([[:space:]])[#;]*}"
+		# skip comments and empty lines
+		[[ -z $line ]] && continue
+
+		# process section headers
+		if [[ $line =~ ^\[(.*)\]$ ]]; then
+			# replace invalid key characters with underscores
+			sec="${BASH_REMATCH[1]//[^a-zA-Z0-9_]/_}"
+			[[ $sec = [0-9]* ]] && sec="_$sec"
+
+			# define arrays for section
+			declare -n section="$sec"			 # requires bash 4.3+
+			declare -n section_keys="${sec}_keys" # requires bash 4.3+
+			declare -ga ${sec}_keys
+			declare -gA $sec
+
+		# process key-value pairs
+		else
+			# normalize lines without a delimiter (=)
+			if [[ $line != *=* ]]; then
+				# turn 'nokey' into 'key=0'
+				if [[ $line == [Nn][Oo]* ]]; then
+					line="${line#[Nn][Oo]}=0"
+				# turn 'key' into 'key=1'
+				else
+					line="$line=1"
+				fi
+			fi
+
+			# split line
+			IFS='=' read key value <<< "$line"
+
+			# remove leading and trailing whitespace
+			key="${key##+([[:space:]])}"
+			key="${key%%+([[:space:]])}"
+			value="${value##+([[:space:]])}"
+			value="${value%%+([[:space:]])}"
+
+			# interpret ~/ as $HOME/
+			[[ $value == '~/'* ]] && value="${value/~\//$HOME/}"
+
+			# store key and value
+			section_keys+=("$key")
+			section["$key"]="$value"
+		fi
+	done < "$ini"
+	shopt -u extglob
 }
 
 # print most recently recorded file to stdout
@@ -53,6 +122,18 @@ Manage xmacro macros.
 "
 if [[ "$*" == *--help* ]]; then
 	die "$usage"
+fi
+
+# copy default config if necessary
+if [[ ! -f "$ini" ]]; then
+	set -o noclobber
+	default_ini > "$ini"
+	set +o noclobber
+fi
+
+# load config
+if [[ -r "$ini" ]]; then
+	load_ini "$ini"
 fi
 
 # do the thing

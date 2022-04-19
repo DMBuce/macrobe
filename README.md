@@ -40,7 +40,7 @@ or [rofi-blezz](https://github.com/davatorium/rofi-blezz):
 
 ![Blezz Menu](https://i.imgur.com/f7cxz0v.png)
 
-Macros are stored in `~/.config/macro/`.
+Macros are stored in `~/.config/macro/macros/`.
 
 ## Usage
 
@@ -50,7 +50,7 @@ Macros are stored in `~/.config/macro/`.
     
     Manage xmacro macros.
 
-Record a macro to `~/.config/macro/tmp.*`:
+Record a macro to `~/.config/macro/macros/tmp.*`:
 
     macro record
 
@@ -76,11 +76,11 @@ Kill all macro and xmacroplay processes:
 
 Rename a macro:
 
-    mv ~/.config/macro/tmp.XXXXXX ~/.config/macro/my-custom-macro
+    mv ~/.config/macro/macros/tmp.XXXXXX ~/.config/macro/macros/my-custom-macro
 
 Convert a text file to a macro:
 
-    genmacro file.txt > ~/.config/macro/my-custom-macro
+    genmacro file.txt > ~/.config/macro/macros/my-custom-macro
 
 Play a specific macro:
 
