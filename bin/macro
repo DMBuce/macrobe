@@ -62,7 +62,7 @@ case "$cmd" in
 	list)
 		egrep -lx 'Delay [0-9]+' *
 	;;
-	rec*) 
+	record) 
 		i3-msg 'mode "(Esc) Stop Recording"'
 		rec
 	;;
