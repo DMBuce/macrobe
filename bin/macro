@@ -6,12 +6,12 @@ logfile="$configdir/xmacro.log"
 
 # redirect all output to logfile when not run from terminal
 if [[ ! -t 0 ]]; then
-	mkdir -p "$(dirname "$logfile")"
+	mkdir -p "$(dirname "$logfile")/macros"
 	exec &> "$logfile"
 fi
 
 # create config dir if necessary and switch to it
-mkdir -p "$configdir"
+mkdir -p "$configdir/macros"
 cd "$configdir"
 
 # exit with an error message
@@ -23,7 +23,7 @@ die() {
 
 # print most recently recorded file to stdout
 mostrecent() {
-	find "$configdir" -maxdepth 1 -type f -name 'tmp.*' -printf "%T@ %p\n" \
+	find "$configdir/macros" -maxdepth 1 -type f -name 'tmp.*' -printf "%T@ %p\n" \
 		| sort -rn \
 		| head -n1 \
 		| cut -d' ' -f 2-
@@ -37,7 +37,7 @@ play() {
 
 # record an xmacro script
 rec() {
-	local file="$(mktemp "$configdir/tmp.XXXXXX")" || exit 1
+	local file="$(mktemp "$configdir/macros/tmp.XXXXXX")" || exit 1
 	xmacrorec2 -k 9 > "$file"
 	sed -i '
 		/^Delay / s/.*/Delay 50/
@@ -49,7 +49,7 @@ rec() {
 usage="Syntax: ${0##*/} list|record|edit|play|loop|kill|gen
         ${0##*/} <template>
 
-Manipulate macros and templates for xmacro.
+Manage xmacro macros.
 "
 if [[ "$*" == *--help* ]]; then
 	die "$usage"
@@ -60,7 +60,7 @@ cmd="$1"
 shift
 case "$cmd" in
 	list)
-		egrep -lx 'Delay [0-9]+' *
+		( cd macros && grep -ls . *; )
 	;;
 	record) 
 		i3-msg 'mode "(Esc) Stop Recording"'
@@ -85,10 +85,10 @@ case "$cmd" in
 		die "$usage"
 	;;
 	*)
-		play "$configdir/$cmd"
+		play "$configdir/macros/$cmd"
 	;;
 esac
 
 # clean up old scripts
-find "$configdir" -maxdepth 1 -type f -name 'tmp.*' -mtime +365 -delete
+find "$configdir/macros" -maxdepth 1 -type f -name 'tmp.*' -mtime +365 -delete
 
