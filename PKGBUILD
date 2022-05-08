@@ -12,7 +12,7 @@ pkgrel=1
 pkgdesc="Scripts for managing xmacro."
 arch=(any)
 url="https://github.com/DMBuce/macro"
-license=('unknown')
+license=('GPL3')
 groups=()
 depends=(
   i3-wm
