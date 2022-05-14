@@ -2,18 +2,7 @@
 
 # global vars
 configdir="${XDG_CONFIG_HOME-$HOME/.config/macro}"
-logfile="$configdir/xmacro.log"
 ini="$configdir/config.ini"
-
-# redirect all output to logfile when not run from terminal
-if [[ ! -t 0 ]]; then
-	mkdir -p "$(dirname "$logfile")/macros"
-	exec &> "$logfile"
-fi
-
-# create config dir if necessary and switch to it
-mkdir -p "$configdir/macros"
-cd "$configdir"
 
 # exit with an error message
 die() {
@@ -95,6 +84,11 @@ default_ini() {
 	cat <<-EOF
 
 		[macro]
+		# if stdin is not a tty, macro truncates and logs to this file
+		#logfile = ~/.cache/macro/macro.log
+		# leave unset to disable logging
+		logfile =
+
 		# if \$EDITOR is not set, 'macro edit' will use this command to edit macros
 		default_editor = vi
 
@@ -115,7 +109,13 @@ default_ini() {
 		post = find ~/.config/macro/macros -maxdepth 1 -type f -name 'tmp.*' -mtime +365 -delete
 
 		[genmacro]
-		start_delay = 100
+		# add a 100ms delay at the beginning of generated macros
+		#start_delay = 100
+
+		# map characters to keysims
+		#
+		# special ini characters need to be escaped:    =\[;#
+		# escape sequences for whitespace characters:   \n \t \s
 		\`  = grave
 		-  = minus
 		\= = equal
@@ -237,6 +237,10 @@ if [[ "$*" == *--help* ]]; then
 	die "$usage"
 fi
 
+# parse args
+cmd="$1"
+shift
+
 # copy default config if necessary
 if [[ ! -f "$ini" ]]; then
 	set -o noclobber
@@ -249,9 +253,15 @@ if [[ -r "$ini" ]]; then
 	load_ini "$ini"
 fi
 
-# parse args
-cmd="$1"
-shift
+# redirect all output to log file when not run from terminal
+if [[ -n "${macro[logfile]}" && ! -t 0 ]]; then
+	mkdir -p "$(dirname "${macro[logfile]}")" || exit
+	exec &> "${macro[logfile]}"
+fi
+
+# create config dir if necessary and switch to it
+mkdir -p "$configdir/macros"
+cd "$configdir"
 
 # run pre hooks
 [[ -n "${macro[pre]}" ]] && eval "${macro[pre]}"
