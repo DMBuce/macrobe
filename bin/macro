@@ -29,7 +29,7 @@ load_ini() {
 
 	# define default section
 	sec=general
-	declare -n section="$sec"			 # requires bash 4.3+
+	declare -n section="$sec"			  # requires bash 4.3+
 	declare -n section_keys="${sec}_keys" # requires bash 4.3+
 	declare -ga ${sec}_keys
 	declare -gA $sec
@@ -52,7 +52,7 @@ load_ini() {
 			[[ $sec = [0-9]* ]] && sec="_$sec"
 
 			# define arrays for section
-			declare -n section="$sec"			 # requires bash 4.3+
+			declare -n section="$sec"			  # requires bash 4.3+
 			declare -n section_keys="${sec}_keys" # requires bash 4.3+
 			declare -ga ${sec}_keys
 			declare -gA $sec
@@ -90,6 +90,33 @@ load_ini() {
 	shopt -u extglob
 }
 
+# print the default configuration
+default_ini() {
+	cat <<-EOF
+		[macro]
+		# if \$EDITOR is not set, 'macro edit' will use this command to edit macros
+		default_editor = vi
+
+		# set all recorded delays to 50ms
+		record_delay = 50
+		# add a 100ms delay at the beginning of recorded macros
+		#record_start_delay = 100
+
+		# you can define commands to run before or after macro subcommands
+		#
+		# switch i3 modes at the beginning of 'record' and 'loop' subcommands
+		#record_pre = i3-msg 'mode "(Esc) Stop Recording"'
+		#loop_pre = i3-msg 'mode "(Esc) Stop Macro"'
+
+		# you can also define commands to run before or after every macro subcommand
+		#
+		# clean up old tmp macros every time you run 'macro'
+		post = find ~/.config/macro/macros -maxdepth 1 -type f -name 'tmp.*' -mtime +365 -delete
+
+		[genmacro]
+	EOF
+}
+
 # print most recently recorded file to stdout
 mostrecent() {
 	find "$configdir/macros" -maxdepth 1 -type f -name 'tmp.*' -printf "%T@ %p\n" \
@@ -100,22 +127,42 @@ mostrecent() {
 
 # play an xmacro script
 play() {
-	local file="${1-$(mostrecent)}"
+	local file="$configdir/macros/$1"
+	if [[ -z "$1" ]]; then
+		file="$(mostrecent)"
+	fi
 	xmacroplay "${DISPLAY-:0}" < "$file"
+}
+
+# edit an xmacro script
+edit() {
+	local file="$configdir/macros/$1"
+	if [[ -z "$1" ]]; then
+		file="$(mostrecent)"
+	fi
+	${EDITOR-${macro[default_editor]-vi}} "$file"
 }
 
 # record an xmacro script
 rec() {
-	local file="$(mktemp "$configdir/macros/tmp.XXXXXX")" || exit 1
+	local file="$configdir/macros/$1"
+	if [[ -z "$1" ]]; then
+		file="$(mktemp "$configdir/macros/tmp.XXXXXX")" || exit 1
+	fi
 	xmacrorec2 -k 9 > "$file"
-	sed -i '
-		/^Delay / s/.*/Delay 50/
-		1s/^/Delay 100\n/
-	' "$file"
+
+	# adjust delays in output
+	if [[ "${macro[record_delay]}" =~ ^[0-9]+$ ]]; then
+		sed -i "/^Delay / s/.*/Delay ${macro[record_delay]}/" "$file"
+	fi
+	if [[ "${macro[record_start_delay]}" =~ ^[0-9]+$ ]]; then
+		sed -i "1s/^/Delay ${macro[record_start_delay]}\n/" "$file"
+	fi
 }
 
 # display help message
-usage="Syntax: ${0##*/} list|record|edit|play|loop|kill|gen
+usage="Syntax: ${0##*/} list|kill
+        ${0##*/} record|edit|play|loop [template]
         ${0##*/} <template>
 
 Manage xmacro macros.
@@ -127,7 +174,7 @@ fi
 # copy default config if necessary
 if [[ ! -f "$ini" ]]; then
 	set -o noclobber
-	default_ini > "$ini"
+	default_ini > "$ini" || exit
 	set +o noclobber
 fi
 
@@ -136,26 +183,30 @@ if [[ -r "$ini" ]]; then
 	load_ini "$ini"
 fi
 
-# do the thing
+# parse args
 cmd="$1"
 shift
+
+# run pre hooks
+[[ -n "${macro[pre]}" ]] && eval "${macro[pre]}"
+[[ -n "${macro[${cmd}_pre]}" ]] && eval "${macro[${cmd}_pre]}"
+
+# do the thing
 case "$cmd" in
 	list)
 		( cd macros && grep -ls . *; )
 	;;
 	record) 
-		i3-msg 'mode "(Esc) Stop Recording"'
-		rec
+		rec "$@"
 	;;
 	edit)
-		${EDITOR-vi} "$(mostrecent)"
+		edit "$@"
 	;;
 	play) 
-		play
+		play "$@"
 	;;
 	loop)
-		i3-msg 'mode "(Esc) Stop Macro"'
-		while play; do
+		while play "$@"; do
 			true
 		done
 	;;
@@ -170,6 +221,7 @@ case "$cmd" in
 	;;
 esac
 
-# clean up old scripts
-find "$configdir/macros" -maxdepth 1 -type f -name 'tmp.*' -mtime +365 -delete
+# run post hooks
+[[ -n "${macro[${cmd}_post]}" ]] && eval "${macro[${cmd}_post]}"
+[[ -n "${macro[post]}" ]] && eval "${macro[post]}"
 
