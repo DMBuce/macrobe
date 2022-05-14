@@ -94,7 +94,7 @@ Kill all macro and xmacroplay processes:
 
  macro kill
 
-Record/edit/play/loop a macro at `~/.config/macro/macros/my-custom-macro`:
+Record/edit/play/loop a specific macro stored in `~/.config/macro/macros`:
 
  macro record my-custom-macro
  macro edit my-custom-macro
