@@ -47,6 +47,7 @@ BUGREPORT = https://github.com/DMBuce/macro/issues
 URL       = https://github.com/DMBuce/macro
 
 BINFILES         = $(wildcard bin/*)
+DOCFILES         = README.asciidoc
 #ETCFILES         = $(shell find etc/ -type f)
 BINFILES_INSTALL = $(BINFILES:bin/%=$(DESTDIR)$(bindir)/%)
 #ETCFILES_INSTALL = $(ETCFILES:etc/%=$(DESTDIR)$(sysconfdir)/%)
@@ -62,6 +63,9 @@ install: all installdirs $(INSTALL_FILES)
 .PHONY: installdirs
 installdirs: $(INSTALL_DIRS)
 
+.PHONY: doc
+doc: $(DOCFILES)
+
 $(INSTALL_DIRS):
 	$(INSTALL) -d $@
 
@@ -70,5 +74,8 @@ $(DESTDIR)$(bindir)/%: bin/%
 
 $(DESTDIR)$(sysconfdir)/%: etc/%
 	$(INSTALL_DATA) $< $@
+
+%: %.sempl
+	sempl $< $@
 
 # vim: set ft=make:
