@@ -283,7 +283,7 @@ case "$cmd" in
 		die "$usage"
 	;;
 	*)
-		play "$configdir/macros/$cmd"
+		play "$cmd"
 	;;
 esac
 
