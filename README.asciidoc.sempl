@@ -8,8 +8,10 @@ perl and bash 4.3+ are installed.
 
 == Configure
 
-To generate a default config at `~/.config/macro/config.ini`,
-run any macro command such as `macro list`.
+Running any macro command, e.g. `macro --help`,
+will create a default config for you
+if one does not exist at `~/.config/macro/config.ini` .
+The default config has many comments to explain what each option does.
 
 The `[genmacro]` section of the config
 has a mapping of characters to keysym sequences.
@@ -97,8 +99,9 @@ Record/edit/play/loop a specific macro stored in `~/.config/macro/macros`:
  macro play my-custom-macro # or macro my-custom-macro
  macro loop my-custom-macro
 
-Convert a text file to a macro:
+Convert text from a file or stdin to a macro:
 
  genmacro file.txt > ~/.config/macro/macros/my-custom-macro
+ somecommand | genmacro > ~/.config/macro/macros/my-custom-macro
 
 // vim: ft=asciidoc:
