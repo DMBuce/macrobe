@@ -16,10 +16,10 @@ You can use `xev` and press a key to see its keysym.
 To generate a default config at `~/.config/macro/config.ini`,
 run any macro command such as `macro list`.
 
-If you use https://i3wm.org/[i3],
-you can set up some handy indicators for 
-by uncommenting the `record_pre` and `loop_pre` options in the default config
-and adding the following modes in your i3 config:
+Users of https://i3wm.org/[i3]
+may want to uncomment the `record_pre` and `loop_pre` options
+in the default config
+and add the following modes to i3's config:
 
  # record/loop modes
  set $rmacromode (Esc) Stop Recording
@@ -91,16 +91,15 @@ Kill all macro and xmacroplay processes:
 
  macro kill
 
-Rename a macro:
+Record/edit/play/loop a macro at `~/.config/macro/macros/my-custom-macro`:
 
- mv ~/.config/macro/macros/tmp.XXXXXX ~/.config/macro/macros/my-custom-macro
+ macro record my-custom-macro
+ macro edit my-custom-macro
+ macro play my-custom-macro # or macro my-custom-macro
+ macro loop my-custom-macro
 
 Convert a text file to a macro:
 
  genmacro file.txt > ~/.config/macro/macros/my-custom-macro
-
-Play a specific macro:
-
- macro my-custom-macro
 
 // vim: ft=asciidoc:
