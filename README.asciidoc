@@ -60,13 +60,15 @@ Macros are stored in `~/.config/macro/macros/`.
 
 == Usage
 
- $ macro
- Syntax: macro list|kill
-         macro record|edit|play|loop [template]
-         macro <template>
- 
- Manage xmacro macros.
- 
+-----
+$ macro
+Syntax: macro list|kill
+        macro record|edit|play|loop [template]
+        macro <template>
+
+Manage xmacro macros.
+
+-----
 
 Record a macro to `~/.config/macro/macros/tmp.*`:
 

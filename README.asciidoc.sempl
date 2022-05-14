@@ -60,9 +60,11 @@ Macros are stored in `~/.config/macro/macros/`.
 
 == Usage
 
- $ macro
- {!./bin/macro --help}
- {!cat ~/.config/macro/xmacro.log}
+-----
+$ macro
+{!./bin/macro --help}
+{!cat ~/.config/macro/xmacro.log}
+-----
 
 Record a macro to `~/.config/macro/macros/tmp.*`:
 
