@@ -226,6 +226,13 @@ rec() {
 	fi
 }
 
+# copy default config if necessary
+if [[ ! -f "$ini" ]]; then
+	set -o noclobber
+	default_ini > "$ini" || exit
+	set +o noclobber
+fi
+
 # display help message
 usage="Syntax: ${0##*/} list|kill
         ${0##*/} record|edit|play|loop [template]
@@ -240,13 +247,6 @@ fi
 # parse args
 cmd="$1"
 shift
-
-# copy default config if necessary
-if [[ ! -f "$ini" ]]; then
-	set -o noclobber
-	default_ini > "$ini" || exit
-	set +o noclobber
-fi
 
 # load config
 if [[ -r "$ini" ]]; then
