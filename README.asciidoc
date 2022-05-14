@@ -4,18 +4,18 @@
 Drop the scripts in your `$PATH`,
 make them executable,
 and make sure http://xmacro.sourceforge.net/[xmacro],
-https://metacpan.org/pod/Config::Tiny[Config::Tiny],
-and bash 4.3+ are installed.
+perl and bash 4.3+ are installed.
 
 == Configure
 
-At the top of the `genmacro` script is a mapping of characters to keysym sequences.
+To generate a default config at `~/.config/macro/config.ini`,
+run any macro command such as `macro list`.
+
+The `[genmacro]` section of the config
+has a mapping of characters to keysym sequences.
 To use `genmacro` to generate an xmacro script from text,
 these need to be adjusted to match your keyboard layout.
 You can use `xev` and press a key to see its keysym.
-
-To generate a default config at `~/.config/macro/config.ini`,
-run any macro command such as `macro list`.
 
 Users of https://i3wm.org/[i3]
 may want to uncomment the `record_pre` and `loop_pre` options
