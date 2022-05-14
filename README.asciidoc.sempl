@@ -3,7 +3,8 @@
 
 Drop the scripts in your `$PATH`,
 make them executable,
-and make sure http://xmacro.sourceforge.net/[xmacro]
+and make sure http://xmacro.sourceforge.net/[xmacro],
+https://metacpan.org/pod/Config::Tiny[Config::Tiny],
 and bash 4.3+ are installed.
 
 == Configure

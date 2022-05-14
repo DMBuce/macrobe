@@ -15,8 +15,10 @@ url="https://github.com/DMBuce/macro"
 license=('GPL3')
 groups=()
 depends=(
-  i3-wm
   xmacro
+  perl
+  perl-config-tiny
+  bash
 )
 makedepends=('git')
 provides=()
