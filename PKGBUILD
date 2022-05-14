@@ -17,7 +17,6 @@ groups=()
 depends=(
   xmacro
   perl
-  perl-config-tiny
   bash
 )
 makedepends=('git')
