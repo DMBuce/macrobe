@@ -53,8 +53,10 @@ while (my $line = <$fh>) {
 close($fh);
 
 # process escape sequences in config
-$config->{genmacro}{'='} = $config->{genmacro}{'\\'};
-$config->{genmacro}{'='} =~ s/^=\s+//;
+if ($config->{genmacro}{'\\'} =~ /^=\s/) {
+	$config->{genmacro}{'='} = $config->{genmacro}{'\\'};
+	$config->{genmacro}{'='} =~ s/^=\s+//;
+}
 for my $key (keys %{$config->{genmacro}}) {
 	if ($key eq "\\n") {
 		$config->{genmacro}{"\n"} = $config->{genmacro}{"\\n"};
@@ -62,7 +64,7 @@ for my $key (keys %{$config->{genmacro}}) {
 		$config->{genmacro}{"\t"} = $config->{genmacro}{"\\t"};
 	} elsif ($key eq "\\s") {
 		$config->{genmacro}{" "} = $config->{genmacro}{"\\s"};
-	} elsif (substr($key, 0, 1) eq "\\") {
+	} elsif (substr($key, 0, 1) eq "\\" and length($key) > 1) {
 		my $k = substr($key, 1);
 		$config->{genmacro}{$k} = $config->{genmacro}{$key};
 	}
