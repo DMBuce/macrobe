@@ -1,10 +1,16 @@
 
 == Install
 
-Drop the scripts in your `$PATH`,
+On Arch Linux, grab the PKGBUILD from the GitHub repository
+and install using `makepkg` in the usual way.
+
+On other distributions,
+drop the scripts in your `$PATH`,
 make them executable,
 and make sure http://xmacro.sourceforge.net/[xmacro],
 perl and bash 4.3+ are installed.
+
+There is also a Makefile available for package maintainers and advanced users.
 
 == Configure
 
