@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # global vars
-configdir="${XDG_CONFIG_HOME-$HOME/.config/macro}"
+configdir="${XDG_CONFIG_HOME-$HOME/.config/macrobe}"
 ini="$configdir/config.ini"
 
 # exit with an error message
@@ -83,13 +83,13 @@ load_ini() {
 default_ini() {
 	cat <<-EOF
 
-		[macro]
-		# if stdin is not a tty, macro truncates and logs to this file
-		#logfile = ~/.cache/macro/macro.log
+		[macrobe]
+		# if stdin is not a tty, macrobe truncates and logs to this file
+		#logfile = ~/.cache/macrobe/macrobe.log
 		# leave unset to disable logging
 		logfile =
 
-		# if \$EDITOR is not set, 'macro edit' will use this command to edit macros
+		# if \$EDITOR is not set, 'macrobe edit' will use this command to edit macros
 		default_editor = vi
 
 		# set all recorded delays to 50ms
@@ -97,22 +97,22 @@ default_ini() {
 		# add a 100ms delay at the beginning of recorded macros
 		#record_start_delay = 100
 
-		# you can define commands to run before or after macro subcommands
+		# you can define commands to run before or after macrobe subcommands
 		#
 		# switch i3 modes at the beginning of 'record' and 'loop' subcommands
 		#record_pre = i3-msg 'mode "(Esc) Stop Recording"'
 		#loop_pre = i3-msg 'mode "(Esc) Stop Macro"'
 
-		# you can also define commands to run before or after every macro subcommand
+		# you can also define commands to run before or after every macrobe subcommand
 		#
-		# clean up old tmp macros every time you run 'macro'
-		post = find ~/.config/macro/macros -maxdepth 1 -type f -name 'tmp.*' -mtime +365 -delete
+		# clean up old tmp macros every time you run 'macrobe'
+		post = find ~/.config/macrobe/macros -maxdepth 1 -type f -name 'tmp.*' -mtime +365 -delete
 
 		[genmacro]
 		# add a 100ms delay at the beginning of generated macros
 		#start_delay = 100
 
-		# map characters to keysims
+		# mapping of characters to keysims
 		#
 		# special ini characters need to be escaped:    =\[;#
 		# escape sequences for whitespace characters:   \n \t \s
@@ -206,7 +206,7 @@ edit() {
 	if [[ -z "$1" ]]; then
 		file="$(mostrecent)"
 	fi
-	${EDITOR-${macro[default_editor]-vi}} "$file"
+	${EDITOR-${macrobe[default_editor]-vi}} "$file"
 }
 
 # record an xmacro script
@@ -218,17 +218,18 @@ rec() {
 	xmacrorec2 -k 9 > "$file"
 
 	# adjust delays in output
-	if [[ "${macro[record_delay]}" =~ ^[0-9]+$ ]]; then
-		sed -i "/^Delay / s/.*/Delay ${macro[record_delay]}/" "$file"
+	if [[ "${macrobe[record_delay]}" =~ ^[0-9]+$ ]]; then
+		sed -i "/^Delay / s/.*/Delay ${macrobe[record_delay]}/" "$file"
 	fi
-	if [[ "${macro[record_start_delay]}" =~ ^[0-9]+$ ]]; then
-		sed -i "1s/^/Delay ${macro[record_start_delay]}\n/" "$file"
+	if [[ "${macrobe[record_start_delay]}" =~ ^[0-9]+$ ]]; then
+		sed -i "1s/^/Delay ${macrobe[record_start_delay]}\n/" "$file"
 	fi
 }
 
 # copy default config if necessary
 if [[ ! -f "$ini" ]]; then
 	set -o noclobber
+	mkdir -p "$configdir/macros" || exit
 	default_ini > "$ini" || exit
 	set +o noclobber
 fi
@@ -254,31 +255,30 @@ if [[ -r "$ini" ]]; then
 fi
 
 # redirect all output to log file when not run from terminal
-if [[ -n "${macro[logfile]}" && ! -t 0 ]]; then
-	mkdir -p "$(dirname "${macro[logfile]}")" || exit
-	exec &> "${macro[logfile]}"
+if [[ -n "${macrobe[logfile]}" && ! -t 0 ]]; then
+	mkdir -p "$(dirname "${macrobe[logfile]}")" || exit
+	exec &> "${macrobe[logfile]}"
 fi
 
 # create config dir if necessary and switch to it
-mkdir -p "$configdir/macros"
 cd "$configdir"
 
 # run pre hooks
-[[ -n "${macro[pre]}" ]] && eval "${macro[pre]}"
-[[ -n "${macro[${cmd}_pre]}" ]] && eval "${macro[${cmd}_pre]}"
+[[ -n "${macrobe[pre]}" ]] && eval "${macrobe[pre]}"
+[[ -n "${macrobe[${cmd}_pre]}" ]] && eval "${macrobe[${cmd}_pre]}"
 
 # do the thing
 case "$cmd" in
 	list)
 		( cd macros && grep -ls . *; )
 	;;
-	record) 
+	record)
 		rec "$@"
 	;;
 	edit)
 		edit "$@"
 	;;
-	play) 
+	play)
 		play "$@"
 	;;
 	loop)
@@ -287,7 +287,7 @@ case "$cmd" in
 		done
 	;;
 	kill)
-		killall macro xmacroplay
+		killall macrobe xmacroplay
 	;;
 	"")
 		die "$usage"
@@ -298,6 +298,6 @@ case "$cmd" in
 esac
 
 # run post hooks
-[[ -n "${macro[${cmd}_post]}" ]] && eval "${macro[${cmd}_post]}"
-[[ -n "${macro[post]}" ]] && eval "${macro[post]}"
+[[ -n "${macrobe[${cmd}_post]}" ]] && eval "${macrobe[${cmd}_post]}"
+[[ -n "${macrobe[post]}" ]] && eval "${macrobe[post]}"
 

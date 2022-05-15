@@ -1,7 +1,7 @@
 # Maintainer: Buce <dmbuce@gmail.com>
 
-pkgname=macro
-pkgver=0.r2.gece68e6
+pkgname=macrobe
+pkgver=0.r36.gb682bc8
 pkgver() {
   cd "$srcdir/$pkgname"
   if ! git describe --tags 2>/dev/null; then
@@ -11,7 +11,7 @@ pkgver() {
 pkgrel=1
 pkgdesc="Scripts for managing xmacro."
 arch=(any)
-url="https://github.com/DMBuce/macro"
+url="https://github.com/DMBuce/macrobe"
 license=('GPL3')
 groups=()
 depends=(

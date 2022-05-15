@@ -40,11 +40,11 @@ INSTALL         = /usr/bin/install -c
 INSTALL_PROGRAM = ${INSTALL}
 INSTALL_DATA    = ${INSTALL} -m 644
 
-PACKAGE   = macro
-PROG      = macro
+PACKAGE   = macrobe
+PROG      = macrobe
 #VERSION   = 0.0.0
-BUGREPORT = https://github.com/DMBuce/macro/issues
-URL       = https://github.com/DMBuce/macro
+BUGREPORT = https://github.com/DMBuce/macrobe/issues
+URL       = https://github.com/DMBuce/macrobe
 
 BINFILES         = $(wildcard bin/*)
 DOCFILES         = README.asciidoc
