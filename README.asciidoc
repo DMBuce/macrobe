@@ -76,7 +76,6 @@ Syntax: macrobe list|kill
 
 Manage xmacro macros.
 
-xmacroplay: no process found
 -----
 
 Record a macro to `~/.config/macrobe/macros/tmp.*`:

@@ -71,7 +71,6 @@ Macros are stored in `~/.config/macrobe/macros/`.
 -----
 $ macrobe
 {!./bin/macrobe --help}
-{!cat ~/.config/macrobe/xmacro.log}
 -----
 
 Record a macro to `~/.config/macrobe/macros/tmp.*`:
