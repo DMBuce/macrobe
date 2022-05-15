@@ -9,7 +9,7 @@ pkgver() {
   fi | sed 's/-/.r/; s/-/./g'
 }
 pkgrel=1
-pkgdesc="Scripts for managing xmacro."
+pkgdesc="Companion scripts for xmacro."
 arch=(any)
 url="https://github.com/DMBuce/macrobe"
 license=('GPL3')
