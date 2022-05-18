@@ -120,9 +120,9 @@ default_ini() {
 
 		[genmacro]
 		# add a 100ms delay at the beginning of generated macros
-		#start_delay = 100
+		start_delay = 100
 		# add a 50ms delay after each key release event
-		#release_delay = 50
+		release_delay = 50
 
 		# mapping of characters to keysims
 		#
