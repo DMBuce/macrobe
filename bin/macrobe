@@ -4,10 +4,20 @@
 configdir="${XDG_CONFIG_HOME-$HOME/.config/macrobe}"
 ini="$configdir/config.ini"
 
+# print a warning message to stderr
+warn() {
+	local message="$1"
+	shift
+	printf "$message\n" "$@" >&2
+}
+
 # exit with an error message
 die() {
-	local message="$1"
-	printf "$message\n" "$@"
+	if [[ $1 =~ ^[0-9]+$ ]]; then
+		local retval="$1"
+		shift
+	fi
+	warn "$@"
 	exit "${retval-1}"
 }
 
@@ -242,7 +252,7 @@ usage="Syntax: ${0##*/} list|kill
 Manage xmacro macros.
 "
 if [[ "$*" == *--help* ]]; then
-	die "$usage"
+	die 0 "$usage"
 fi
 
 # parse args
