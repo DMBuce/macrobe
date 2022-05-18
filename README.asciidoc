@@ -79,23 +79,29 @@ Manage xmacro macros.
 
 -----
 
-Record a macro to `~/.config/macrobe/macros/tmp.*`:
+=== Temp Macros
+
+Temp macros are files named `tmp.*` in `~/.config/macrobe/macros/`.
+Several macrobe subcommands will use the most recent temp macro
+if no macro is specified on the command line.
+
+Record a temp macro:
 
  macrobe record
 
-List all macros:
+List all macros, including the most recent temp macro:
 
  macrobe list
 
-Edit the most recent `tmp.*` macro with your `$EDITOR` (`vi` by default):
+Edit the most recent temp macro with your `$EDITOR` (`vi` by default):
 
  macrobe edit
 
-Play the most recent `tmp.*` macro:
+Play the most recent temp macro:
 
  macrobe play
 
-Play the most recent `tmp.*` macro on repeat:
+Play the most recent temp macro on repeat:
 
  macrobe loop
 
@@ -103,14 +109,21 @@ Kill all macrobe and xmacroplay processes:
 
  macrobe kill
 
-Record/edit/play/loop a specific macro stored in `~/.config/macrobe/macros`:
+=== Named Macros
+
+Rather than just manipulate the most recent temp macro,
+you can also record/edit/play/loop macros by name:
 
  macrobe record my-custom-macro
  macrobe edit my-custom-macro
  macrobe play my-custom-macro # or macrobe my-custom-macro
  macrobe loop my-custom-macro
 
-Convert text from a file or stdin to a macro:
+Like all macros, named macros are stored in `~/.config/macrobe/macros`,
+and like temp macros, they are simply xmacroplay scripts,
+so you can place them there yourself if you want.
+For example, to convert text from a file or command to a macro,
+you can use `genmacro`:
 
  genmacro file.txt > ~/.config/macrobe/macros/my-custom-macro
  somecommand | genmacro > ~/.config/macrobe/macros/my-custom-macro
@@ -148,7 +161,7 @@ and run the result with `xmacroplay`.
 
 == Example
 
-Suppose we want to create a macro that generates and out-of-office email.
+Suppose we want to create a macro that generates an out-of-office email.
 We want the macro to fill out the "To", "CC", "Subject", and "Body"
 sections of our email client.
 We can accomplish this by including tab characters in the macro,

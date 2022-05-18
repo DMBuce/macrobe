@@ -242,6 +242,19 @@ rec() {
 	fi
 }
 
+# list named macros, dynamic macros, and the most recent tmp macro
+list() {
+	cd macros
+	while read file; do
+		if [[ $file == *.* && -x $file ]]; then
+			echo "${file%.*}"
+		elif [[ $file != tmp.* ]]; then
+			echo "$file"
+		fi
+	done < <(printf "%s\n" *) | sort -u
+	basename "$(mostrecent 'tmp.*')"
+}
+
 # copy default config if necessary
 if [[ ! -f "$ini" ]]; then
 	set -o noclobber
@@ -286,7 +299,7 @@ cd "$configdir"
 # do the thing
 case "$cmd" in
 	list)
-		( cd macros && grep -ls . *; )
+		list
 	;;
 	record)
 		rec "$@"
