@@ -75,6 +75,8 @@ $(DESTDIR)$(bindir)/%: bin/%
 $(DESTDIR)$(sysconfdir)/%: etc/%
 	$(INSTALL_DATA) $< $@
 
+README.asciidoc: ./bin/macrobe
+
 %: %.sempl
 	sempl $< $@
 
