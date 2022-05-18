@@ -149,7 +149,8 @@ so that `macrobe play` will tab through those fields.
 We also want it to prompt us for a start and end date with a tool like
 link:https://github.com/dmbuce/i3b#pickdate[pickdate].
 Since these dates will change each time we generate the email,
-our macro will need to be a dynamic one.
+we will need to create a dynamic macro.
+
 The script for such a macro might look something like this:
 
 [source,bash]
