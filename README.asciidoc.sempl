@@ -174,4 +174,11 @@ The script for such a macro might look something like this:
 {./ooo.sh}
 ----
 
+If I run this script with my cursor in the "To" field of my email client,
+I'm prompted for two dates and then xmacroplay fills out the email.
+
+Of course, you will need to adjust the tabs in the script
+to be suitable for your email client,
+and other details as necessary for your use case.
+
 // vim: ft=asciidoc:
