@@ -144,7 +144,7 @@ that generates and out-of-office email.
 We want the macro to fill out the "To", "CC", "Subject", and "Body"
 sections of our email client.
 We can accomplish this by including tab characters in the macro,
-so that `macrobe play` will tab through
+so that `macrobe play` will tab through those fields.
 
 We also want it to prompt us for a start and end date with a tool like
 link:https://github.com/dmbuce/i3b#pickdate[pickdate].
@@ -153,6 +153,7 @@ our macro will need to be a dynamic one.
 
 Such a script might look something like this:
 
+[source,bash]
 ----
 {./ooo.sh}
 ----

@@ -149,7 +149,7 @@ that generates and out-of-office email.
 We want the macro to fill out the "To", "CC", "Subject", and "Body"
 sections of our email client.
 We can accomplish this by including tab characters in the macro,
-so that `macrobe play` will tab through
+so that `macrobe play` will tab through those fields.
 
 We also want it to prompt us for a start and end date with a tool like
 link:https://github.com/dmbuce/i3b#pickdate[pickdate].
@@ -158,6 +158,7 @@ our macro will need to be a dynamic one.
 
 Such a script might look something like this:
 
+[source,bash]
 ----
 #!/bin/bash -e
 
@@ -177,7 +178,7 @@ humanback="$(date -d @$(($epochend + 24*3600)) +'%A')"
 
 # print template
 cat <<EOF
-$mailto		${cc}	OOO $start thru $end	I will be out of the office from $humanstart to $humanend, returning $humanback.
+$mailto			${cc}		OOO $start thru $end	I will be out of the office from $humanstart to $humanend, returning $humanback.
 
 Have a good one.
 EOF
