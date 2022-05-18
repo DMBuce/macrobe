@@ -72,8 +72,8 @@ Macros are stored in `~/.config/macrobe/macros/`.
 -----
 $ macrobe
 Syntax: macrobe list|kill
-        macrobe record|edit|play|loop [template]
-        macrobe <template>
+        macrobe record|edit|play|loop [MACRO]
+        macrobe MACRO
 
 Manage xmacro macros.
 
