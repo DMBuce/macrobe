@@ -195,7 +195,7 @@ default_ini() {
 
 # print most recently recorded file to stdout
 mostrecent() {
-	find "$configdir/macros" -maxdepth 1 -type f -name 'tmp.*' -printf "%T@ %p\n" \
+	find "$configdir/macros" -mindepth 1 -maxdepth 1 -type f -name "$1" -printf "%T@ %p\n" \
 		| sort -rn \
 		| head -n1 \
 		| cut -d' ' -f 2-
@@ -205,7 +205,9 @@ mostrecent() {
 play() {
 	local file="$configdir/macros/$1"
 	if [[ -z "$1" ]]; then
-		file="$(mostrecent)"
+		file="$(mostrecent 'tmp.*')"
+	elif dynfile="$(mostrecent "$1.*")"; [[ -x "$dynfile" ]]; then
+		genmacro "$dynfile" > "$file"
 	fi
 	xmacroplay "${DISPLAY-:0}" < "$file"
 }
@@ -214,7 +216,9 @@ play() {
 edit() {
 	local file="$configdir/macros/$1"
 	if [[ -z "$1" ]]; then
-		file="$(mostrecent)"
+		file="$(mostrecent 'tmp.*')"
+	elif dynfile="$(mostrecent "$1.*")"; [[ -x "$dynfile" ]]; then
+		file="$dynfile"
 	fi
 	${EDITOR-${macrobe[default_editor]-vi}} "$file"
 }

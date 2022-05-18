@@ -114,4 +114,74 @@ Convert text from a file or stdin to a macro:
  genmacro file.txt > ~/.config/macrobe/macros/my-custom-macro
  somecommand | genmacro > ~/.config/macrobe/macros/my-custom-macro
 
+=== Dynamic Macros
+
+A dynamic macro is an executable file in `~/.config/macrobe/macros`
+with a dot (`.`) in its name.
+
+To create a dynamic macro named `foo`, you can run the following.
+Note that the exact extension doesn't matter,
+and you could use `foo.py`, `foo.pl`, or `foo.bin` instead, for example.
+If multiple `foo.*` files exist,
+macrobe uses the most recently modified one.
+
+ macrobe edit foo.sh
+ # save and quit, then
+ chmod +x ~/.config/macrobe/macros/foo.sh
+
+Once created, you can edit the macro again without the extension
+
+ macrobe edit foo
+
+To play the macro you would run
+
+ macrobe play foo
+
+Since it's a dynamic macro,
+macrobe will run the `foo.sh` script,
+process its output with `genmacro`,
+and run the result with `xmacroplay`.
+
+== Example
+
+Suppose we want to create a dynamic macro
+that generates and out-of-office email.
+We want the macro to fill out the "To", "CC", "Subject", and "Body"
+sections of our email client.
+We can accomplish this by including tab characters in the macro,
+so that `macrobe play` will tab through
+
+We also want it to prompt us for a start and end date with a tool like
+link:https://github.com/dmbuce/i3b#pickdate[pickdate].
+Since these dates will change each time we generate the email,
+our macro will need to be a dynamic one.
+
+Such a script might look something like this:
+
+----
+#!/bin/bash -e
+
+# define some vars
+mailto=$'department@example.com\tanother-dept@example.com'
+cc='boss@example.com'
+
+# schedule start date
+start="$(pickdate '%A %-m/%-d')"
+humanstart="$(date -d "$start" +'%a, %b %-e')"
+
+# schedule end date
+epochend="$(pickdate %s)"
+end="$(date -d @$epochend +'%A %-m/%-d')"
+humanend="$(date -d "$end" +'%a, %b %-e')"
+humanback="$(date -d @$(($epochend + 24*3600)) +'%A')"
+
+# print template
+cat <<EOF
+$mailto		${cc}	OOO $start thru $end	I will be out of the office from $humanstart to $humanend, returning $humanback.
+
+Have a good one.
+EOF
+
+----
+
 // vim: ft=asciidoc:
