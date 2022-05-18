@@ -22,6 +22,7 @@ The default config has many comments to explain what each option does.
 The `[genmacro]` section of the config
 has a mapping of characters to keysym sequences.
 To use `genmacro` to generate an xmacro script from text,
+or to play a link:#dynamic-macros[dynamic macro] with macrobe,
 these need to be adjusted to match your keyboard layout.
 You can use `xev` and press a key to see its keysym.
 
@@ -113,6 +114,10 @@ Convert text from a file or stdin to a macro:
 
 A dynamic macro is an executable file in `~/.config/macrobe/macros`
 with a dot (`.`) in its name.
+When playing a dynamic macro,
+macrobe will run the executable,
+generate a macro from its output,
+and play the result.
 
 To create a dynamic macro named `foo`, you can run the following.
 Note that the exact extension doesn't matter,
@@ -128,11 +133,10 @@ Once created, you can edit the macro again without the extension
 
  macrobe edit foo
 
-To play the macro you would run
+If you play the dynamic macro with
 
  macrobe play foo
 
-Since it's a dynamic macro,
 macrobe will run the `foo.sh` script,
 process its output with `genmacro`,
 and run the result with `xmacroplay`.
