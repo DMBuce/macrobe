@@ -144,8 +144,7 @@ and run the result with `xmacroplay`.
 
 == Example
 
-Suppose we want to create a dynamic macro
-that generates and out-of-office email.
+Suppose we want to create a macro that generates and out-of-office email.
 We want the macro to fill out the "To", "CC", "Subject", and "Body"
 sections of our email client.
 We can accomplish this by including tab characters in the macro,
@@ -154,7 +153,7 @@ so that `macrobe play` will tab through those fields.
 We also want it to prompt us for a start and end date with a tool like
 link:https://github.com/dmbuce/i3b#pickdate[pickdate].
 Since these dates will change each time we generate the email,
-we will need to create a dynamic macro.
+we will need to create a dynamic macro for this use case.
 
 The script for such a macro might look something like this:
 
