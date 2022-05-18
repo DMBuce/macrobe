@@ -86,6 +86,7 @@ while (<>) {
 			print("KeyStrPress $c\n");
 			print("KeyStrRelease $c\n");
 		}
+		print("Delay $config->{genmacro}{release_delay}\n") if $config->{genmacro}{release_delay};
 		print("\n") if ($c eq "\n");
 	}
 }
