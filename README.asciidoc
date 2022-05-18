@@ -53,7 +53,7 @@ when `macrobe loop` is running.
 
 For users who want a simple GUI,
 here is an example config for https://github.com/Blezzing/blezz[blezz]
-or https://github.com/davatorium/rofi-blezz[rofi-blezz]:
+or https://github.com/dmbuce/i3b#rofi-blezz[rofi-blezz]:
 
  Macro:
  act(r,Record, macrobe record)
