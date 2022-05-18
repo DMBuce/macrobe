@@ -155,8 +155,7 @@ We also want it to prompt us for a start and end date with a tool like
 link:https://github.com/dmbuce/i3b#pickdate[pickdate].
 Since these dates will change each time we generate the email,
 our macro will need to be a dynamic one.
-
-Such a script might look something like this:
+The script for such a macro might look something like this:
 
 [source,bash]
 ----
@@ -176,7 +175,7 @@ end="$(date -d @$epochend +'%A %-m/%-d')"
 humanend="$(date -d "$end" +'%a, %b %-e')"
 humanback="$(date -d @$(($epochend + 24*3600)) +'%A')"
 
-# print template
+# print macro
 cat <<EOF
 $mailto			${cc}		OOO $start thru $end	I will be out of the office from $humanstart to $humanend, returning $humanback.
 
