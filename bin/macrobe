@@ -207,7 +207,7 @@ play() {
 	if [[ -z "$1" ]]; then
 		file="$(mostrecent 'tmp.*')"
 	elif dynfile="$(mostrecent "$1.*")"; [[ -x "$dynfile" ]]; then
-		genmacro "$dynfile" > "$file"
+		"$dynfile" | genmacro > "$file"
 	fi
 	xmacroplay "${DISPLAY-:0}" < "$file"
 }
