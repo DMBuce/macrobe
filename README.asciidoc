@@ -65,8 +65,6 @@ or https://github.com/dmbuce/i3b#rofi-blezz[rofi-blezz]:
 
 image::https://i.imgur.com/f7cxz0v.png[Blezz Menu]
 
-Macros are stored in `~/.config/macrobe/macros/`.
-
 == Usage
 
 -----
