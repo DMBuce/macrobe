@@ -181,11 +181,11 @@ mailto=$'department@example.com\tanother-dept@example.com'
 cc='boss@example.com'
 
 # schedule start date
-start="$(pickdate '%A %-m/%-d')"
+start="$(pickdate -f '%A %-m/%-d')"
 humanstart="$(date -d "$start" +'%a, %b %-e')"
 
 # schedule end date
-epochend="$(pickdate %s)"
+epochend="$(pickdate -f %s)"
 end="$(date -d @$epochend +'%A %-m/%-d')"
 humanend="$(date -d "$end" +'%a, %b %-e')"
 humanback="$(date -d @$(($epochend + 24*3600)) +'%A')"
