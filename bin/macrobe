@@ -264,9 +264,9 @@ if [[ ! -f "$ini" ]]; then
 fi
 
 # display help message
-usage="Syntax: ${0##*/} list|kill
-        ${0##*/} record|edit|play|loop [MACRO]
-        ${0##*/} MACRO
+usage="Usage: ${0##*/} list|kill
+       ${0##*/} record|edit|play|loop [MACRO]
+       ${0##*/} MACRO
 
 Manage xmacro macros.
 "

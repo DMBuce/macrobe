@@ -70,9 +70,9 @@ image::https://i.imgur.com/Fla4fK0.png[Blezz Menu]
 
 -----
 $ macrobe
-Syntax: macrobe list|kill
-        macrobe record|edit|play|loop [MACRO]
-        macrobe MACRO
+Usage: macrobe list|kill
+       macrobe record|edit|play|loop [MACRO]
+       macrobe MACRO
 
 Manage xmacro macros.
 
