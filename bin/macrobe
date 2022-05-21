@@ -244,7 +244,7 @@ rec() {
 
 # list named macros, dynamic macros, and the most recent tmp macro
 list() {
-	cd macros
+	cd "$configdir/macros"
 	while read file; do
 		if [[ $file == *.* && -x $file ]]; then
 			echo "${file%.*}"
@@ -286,7 +286,12 @@ fi
 # redirect all output to log file when not run from terminal
 if [[ -n "${macrobe[logfile]}" && ! -t 0 ]]; then
 	mkdir -p "$(dirname "${macrobe[logfile]}")" || exit
-	exec &> "${macrobe[logfile]}"
+	# only redirect stderr when running 'macrobe list'
+	if [[ "$cmd" == list ]]; then
+		exec 2> "${macrobe[logfile]}"
+	else
+		exec &> "${macrobe[logfile]}"
+	fi
 fi
 
 # create config dir if necessary and switch to it

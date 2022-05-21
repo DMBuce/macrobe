@@ -61,7 +61,7 @@ or https://github.com/dmbuce/i3b#rofi-blezz[rofi-blezz]:
  act(e,Edit, urxvt -e macrobe edit)
  act(p,Play, macrobe play)
  act(l,Loop, macrobe loop)
- act(c,Choose, i3-msg 'exec macrobe $(macrobe list | rofi -dmenu)')
+ act(c,Choose, sh -c 'macrobe `macrobe list | rofi -dmenu -i -p "Play Macro"`')
  act(m,My Custom Macro, macrobe play my-custom-macro)
 
 image::https://i.imgur.com/f7cxz0v.png[Blezz Menu]
