@@ -3,11 +3,23 @@
 use strict;
 use warnings;
 
+# check arguments
+my $prog = (split(/\//, $0))[-1];
+my $usage = <<EOF;
+Usage: $prog [FILE1] [FILE2] [...]
+
+    Convert text in one or more FILES to an xmacroplay script.
+
+EOF
+if ("@ARGV" =~ /--help/) {
+	die "$usage";
+}
+
 # read config
 my $file = "$ENV{HOME}/.config/macrobe/config.ini";
 my $config = {};
 my $sec = "general";
-open(my $fh, "<", $file) || die $!;
+open(my $fh, "<", $file) or die $!;
 while (my $line = <$fh>) {
 	chomp $line;
 
