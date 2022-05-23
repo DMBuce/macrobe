@@ -72,17 +72,17 @@ git add README.asciidoc
 ## run tests
 #make -kB check
 
-# unstage a file if the only lines in it that changed start with a pattern
-file=PKGBUILD
-lname='$pkgver'
-pattern='\s*pkgver\s*='
-if ! git diff --cached "$file" \
-	| egrep -v -e "^[+-]$pattern" -e '^[+-]{3}' \
-	| grep -q '^[+-]'
-then
-	echo "Unstaging $file because only $lname changed..."
-	git restore --staged "$file"
-fi
+## unstage a file if the only lines in it that changed start with a pattern
+#file=PKGBUILD
+#lname='$pkgver'
+#pattern='\s*pkgver\s*='
+#if ! git diff --cached "$file" \
+#	| egrep -v -e "^[+-]$pattern" -e '^[+-]{3}' \
+#	| grep -q '^[+-]'
+#then
+#	echo "Unstaging $file because only $lname changed..."
+#	git restore --staged "$file"
+#fi
 
 ## aur: update .SRCINFO, based on:
 ## https://github.com/eli-schwartz/aurpublish/blob/master/pre-commit.hook
