@@ -267,8 +267,8 @@ fi
 
 # display help message
 usage="Usage: ${0##*/} list|kill
-       ${0##*/} record|edit|play|loop [MACRO]
-       ${0##*/} MACRO
+       ${0##*/} record|edit|play|loop [macro]
+       ${0##*/} <macro>
 
 Manage xmacro macros.
 "

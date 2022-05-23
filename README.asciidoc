@@ -69,8 +69,8 @@ image::https://i.imgur.com/Fla4fK0.png[Blezz Menu]
 -----
 $ macrobe
 Usage: macrobe list|kill
-       macrobe record|edit|play|loop [MACRO]
-       macrobe MACRO
+       macrobe record|edit|play|loop [macro]
+       macrobe <macro>
 
 Manage xmacro macros.
 
