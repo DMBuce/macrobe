@@ -24,9 +24,9 @@ these need to be adjusted to match your keyboard layout.
 You can use `xev` and press a key to see its keysym.
 
 Users of https://i3wm.org/[i3]
-may want to uncomment the `record_pre` and `loop_pre` options
-in the default config
-and add the following modes to i3's config:
+may want to uncomment the `record_pre`, `play_pre`, `play_post`,
+and `loop_pre` options in the default config,
+then add the following modes to i3's config:
 
  # record/loop modes
  set $rmacromode (Esc) Stop Recording
@@ -41,8 +41,9 @@ and add the following modes to i3's config:
  }
 
 In addition to displaying handy indicators
-when running `macrobe record` and `macrobe loop`,
-this setup lets you break out of `macrobe loop` using the Escape key,
+when running `macrobe record`, `macrobe loop` and `macrobe play`,
+this setup lets you stop `macrobe play` or break out of `macrobe loop`
+using the Escape key,
 which will run `macrobe kill`.
 
 Users who don't have the above setup

@@ -112,6 +112,8 @@ default_ini() {
 		# switch i3 modes at the beginning of 'record' and 'loop' subcommands
 		#record_pre = i3-msg 'mode "(Esc) Stop Recording"'
 		#loop_pre = i3-msg 'mode "(Esc) Stop Macro"'
+		#play_pre = i3-msg 'mode "(Esc) Stop Macro"'
+		#play_post = i3-msg 'exec "macrobe kill"; mode "default"'
 
 		# you can also define commands to run before or after every macrobe subcommand
 		#
