@@ -16,7 +16,7 @@ humanback="$(date -d @$(($epochend + 24*3600)) +'%A')"
 
 # print macro
 cat <<EOF
-$mailto			${cc}		OOO $start thru $end	I will be out of the office from $humanstart to $humanend, returning $humanback.
+$mailto			${cc}		Out of office $start thru $end	I will be out of the office from $humanstart to $humanend, returning $humanback.
 
 Have a good one.
 EOF
