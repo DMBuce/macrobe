@@ -7,7 +7,7 @@ for Arch Linux and a Makefile for other distros.
 You can also simply drop the scripts in your `$PATH`,
 make them executable,
 and make sure http://xmacro.sourceforge.net/[xmacro],
-perl and bash 4.3+ are installed.
+perl, and bash 4.3+ are installed.
 
 == Configure
 
