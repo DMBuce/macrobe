@@ -327,7 +327,9 @@ case "$cmd" in
 		die "$usage"
 	;;
 	*)
+		[[ -n "${macrobe[play_pre]}" ]] && eval "${macrobe[play_pre]}"
 		play "$cmd"
+		[[ -n "${macrobe[play_post]}" ]] && eval "${macrobe[play_post]}"
 	;;
 esac
 
